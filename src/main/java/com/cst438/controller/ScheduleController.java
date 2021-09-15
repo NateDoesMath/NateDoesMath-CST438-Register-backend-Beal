@@ -1,4 +1,4 @@
-package com.cst438.controller;
+ package com.cst438.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -115,6 +116,47 @@ public class ScheduleController {
 		}
 	}
 	
+	/* Add student to the system. Student has an email and name */
+	@PostMapping("/student")
+	@Transactional
+	public void addNewStudent (@RequestParam String email, @RequestParam String name) {
+		
+		if (studentRepository.findByEmail(email) == null) {
+		/* create a new student */
+		Student student = new Student();
+		
+		student.setEmail(email);
+		student.setName(name);
+		studentRepository.save(student);
+		}
+		else throw new ResponseStatusException( HttpStatus.UNAUTHORIZED, "Not Authorized. " );
+	}
+	
+	@PutMapping("/student/hold")
+	@Transactional
+	public void putStudentOnHold (@RequestParam String email) {
+		
+		if (studentRepository.findByEmail(email) != null) {
+		/* create a new student */
+		Student student = studentRepository.findByEmail(email);
+		student.setStatusCode(1);
+		studentRepository.save(student);
+		}
+		else throw new ResponseStatusException( HttpStatus.UNAUTHORIZED, "Not Authorized. " );
+	}
+	
+	@PutMapping("/student/release")
+	@Transactional
+	public void removeStudentHold (@RequestParam String email) {
+		
+		if (studentRepository.findByEmail(email) != null) {
+		/* create a new student */
+		Student student = studentRepository.findByEmail(email);
+		student.setStatusCode(0);
+		studentRepository.save(student);
+		}
+		else throw new ResponseStatusException( HttpStatus.UNAUTHORIZED, "Not Authorized. " );
+	}
 	/* 
 	 * helper method to transform course, enrollment, student entities into 
 	 * a an instance of ScheduleDTO to return to front end.
