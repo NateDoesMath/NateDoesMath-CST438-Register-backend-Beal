@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cst438.domain.CourseDTOG;
+import com.cst438.domain.CourseDTOG.GradeDTO;
 import com.cst438.domain.Enrollment;
 import com.cst438.domain.EnrollmentDTO;
 import com.cst438.domain.EnrollmentRepository;
@@ -33,7 +34,9 @@ public class GradebookServiceMQ extends GradebookService {
 	@Override
 	public void enrollStudent(String student_email, String student_name, int course_id) {
 		 
-		//TODO  complete this method in homework 4
+		EnrollmentDTO enrollment = new EnrollmentDTO(student_email, student_name, course_id);
+		this.rabbitTemplate.convertAndSend(gradebookQueue.getName(), enrollment);	   
+	   return;
 		
 	}
 	
@@ -41,8 +44,12 @@ public class GradebookServiceMQ extends GradebookService {
 	@Transactional
 	public void receive(CourseDTOG courseDTOG) {
 		
-		//TODO  complete this method in homework 4
-		
+		for(GradeDTO grade : courseDTOG.grades) {
+			Enrollment enrollment = enrollmentRepository.findByEmailAndCourseId(grade.student_email, courseDTOG.course_id);
+			enrollment.setCourseGrade(grade.grade);
+			enrollmentRepository.save(enrollment);
+		}
+				
 	}
 	
 	
