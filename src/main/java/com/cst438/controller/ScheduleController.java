@@ -117,7 +117,7 @@ public class ScheduleController {
 	}
 	
 	/* Add student to the system. Student has an email and name */
-	@PostMapping("/student")
+	@PutMapping("/student")
 	@Transactional
 	public void addNewStudent (@RequestParam String email, @RequestParam String name) {
 		

@@ -9,7 +9,7 @@ import com.cst438.domain.EnrollmentDTO;
 public class GradebookServiceREST extends GradebookService {
 
 	private RestTemplate restTemplate = new RestTemplate();
-
+	
 	@Value("${gradebook.url}")
 	String gradebook_url;
 	
@@ -20,7 +20,11 @@ public class GradebookServiceREST extends GradebookService {
 	@Override
 	public void enrollStudent(String student_email, String student_name, int course_id) {
 		
-		//TODO  complete this method in homework 4
+		EnrollmentDTO enrollment = new EnrollmentDTO(student_email, student_name, course_id);
+		
+		System.out.println("Sending new student enrollment: ");
+		restTemplate.postForEntity(gradebook_url + "/enrollment", enrollment, null);
+		
 		
 	}
 
