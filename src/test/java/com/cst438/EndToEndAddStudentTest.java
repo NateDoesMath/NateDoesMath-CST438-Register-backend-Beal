@@ -26,7 +26,7 @@ import com.cst438.domain.StudentRepository;
 @SpringBootTest
 public class EndToEndAddStudentTest {
 
-	 public static final String CHROME_DRIVER_FILE_LOCATION = "/C:/Users/Ass/Desktop/chromedriver.exe";
+	 public static final String CHROME_DRIVER_FILE_LOCATION = "/c/Users/Ass/Desktop/chromedriver.exe";
 
     public static final String URL = "https://cst438-register-fe.herokuapp.com/";
     
