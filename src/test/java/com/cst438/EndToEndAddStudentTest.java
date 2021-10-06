@@ -102,9 +102,9 @@ public class EndToEndAddStudentTest {
 //            Student s = studentRepository.findByEmail(TEST_USER_EMAIL);
 //            assertNotNull(s.getEmail(), "email not found in database");
 //
-//        } catch (Exception ex) {
-//            throw ex;
-//        } finally {
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
 
             //Delete 
 //            Assignment a = assignmentRepository.findByName(TEST_ASSIGNMENT_NAME).get(0);
