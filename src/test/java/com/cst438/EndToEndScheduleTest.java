@@ -33,13 +33,13 @@ import com.cst438.domain.EnrollmentRepository;
 @SpringBootTest
 public class EndToEndScheduleTest {
 
-	public static final String CHROME_DRIVER_FILE_LOCATION = "C:/chromedriver_win32/chromedriver.exe";
+	public static final String CHROME_DRIVER_FILE_LOCATION = "C:/Users/Ass/Desktop/chromedriver.exe";
 
-	public static final String URL = "http://localhost:3000";
+	public static final String URL = "https://cst438-register-fe.herokuapp.com/";
 
 	public static final String TEST_USER_EMAIL = "test@csumb.edu";
 
-	public static final int TEST_COURSE_ID = 40442;
+	public static final int TEST_COURSE_ID = 40443;
 
 	public static final String TEST_SEMESTER = "2021 Fall";
 
