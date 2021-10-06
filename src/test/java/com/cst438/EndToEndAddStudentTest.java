@@ -22,7 +22,7 @@ import com.cst438.domain.EnrollmentRepository;
 import com.cst438.domain.Student;
 import com.cst438.domain.StudentRepository;
 
-
+@SpringBootTest
 public class EndToEndAddStudentTest {
 
 	 public static final String CHROME_DRIVER_FILE_LOCATION = "/C:/Users/Ass/Desktop/chromedriver.exe";
