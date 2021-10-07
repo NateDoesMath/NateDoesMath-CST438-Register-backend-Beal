@@ -26,7 +26,7 @@ import com.cst438.domain.StudentRepository;
 @SpringBootTest
 public class EndToEndAddStudentTest {
 
-	 public static final String CHROME_DRIVER_FILE_LOCATION = "/C/Users/Ass/Desktop/chromedriver.exe";
+	 public static final String CHROME_DRIVER_FILE_LOCATION = "C:/Users/Ass/Desktop/chromedriver.exe";
 
     public static final String URL = "https://cst438-register-fe.herokuapp.com/";
     
@@ -77,10 +77,12 @@ public class EndToEndAddStudentTest {
         // Puts an Implicit wait for 10 seconds before throwing exception
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        driver.get(URL);
-        Thread.sleep(SLEEP_DURATION);
-
+        
         try {
+      	  
+      	   driver.get(URL);
+      	   Thread.sleep(SLEEP_DURATION);
+
             
             // Locate and click New Assignment button
             driver.findElement(By.xpath("//a[last()]")).click();
