@@ -26,7 +26,7 @@ import com.cst438.domain.StudentRepository;
 @SpringBootTest
 public class EndToEndAddStudentTest {
 
-	 public static final String CHROME_DRIVER_FILE_LOCATION = "/C:/Users/Ass/Desktop/chromedriver.exe";
+	 public static final String CHROME_DRIVER_FILE_LOCATION = "C:/Users/Ass/Desktop/chromedriver.exe";
 
     public static final String URL = "https://cst438-register-fe.herokuapp.com/";
     
@@ -53,15 +53,6 @@ public class EndToEndAddStudentTest {
 
     @Test
     public void createStudent() throws Exception {
-        
-//        Course c = new Course();
-//        c.setCourse_id(40443);
-//        c.setInstructor(TEST_INSTRUCTOR_EMAIL);
-//        c.setSemester("Fall");
-//        c.setYear(2021);
-//        c.setTitle("Test Course");
-//
-//        courseRepository.save(c);
 
 
         // set the driver location and start driver
