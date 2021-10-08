@@ -101,7 +101,7 @@ public class EndToEndAddStudentTest {
             //Verify to see if student is in database
             Student s = studentRepository.findByEmail(TEST_USER_EMAIL);
             we = driver.findElement(By.xpath("//div[@data-field='name' and @data-value='" + s.getName() + "']"));
-            assertNotNull(s.getEmail(), "email not found in database");
+            assertNotNull(we, "email not found in database");
 
         } catch (Exception ex) {
             throw ex;
