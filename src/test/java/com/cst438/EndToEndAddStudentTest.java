@@ -53,21 +53,22 @@ public class EndToEndAddStudentTest {
 
     @Test
     public void createStudent() throws Exception {
-
-//   	 Student x = null;
-// 		 do {
-// 			 x = studentRepository.findByEmail(TEST_USER_EMAIL);
-// 			 if (x != null)
-// 				 studentRepository.delete(x);
-// 		 } while (x != null);
+   	 
+   	 //Deletes existing students in the database.
+   	 Student x = null;
+ 		 do {
+ 			 x = studentRepository.findByEmail(TEST_USER_EMAIL);
+ 			 if (x != null)
+ 				 studentRepository.delete(x);
+ 		 } while (x != null);
  		 
  		 
         // set the driver location and start driver
         //@formatter:off
-        // browser    property name                 Java Driver Class
-        // edge     webdriver.edge.driver         EdgeDriver
-        // FireFox     webdriver.firefox.driver     FirefoxDriver
-        // IE         webdriver.ie.driver         InternetExplorerDriver
+        // browser    property name                Java Driver Class
+        // edge       webdriver.edge.driver        EdgeDriver
+        // FireFox    webdriver.firefox.driver     FirefoxDriver
+        // IE         webdriver.ie.driver          InternetExplorerDriver
         //@formatter:on
 
         System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_FILE_LOCATION);
