@@ -99,19 +99,19 @@ public class EndToEndAddStudentTest {
             driver.findElement(By.xpath("//input[@name='submitButton']")).click();
             Thread.sleep(SLEEP_DURATION);
 
-//            //Verify to see if student is in database
-//            Student s = studentRepository.findByEmail(TEST_USER_EMAIL);
-//            we = driver.findElement(By.xpath("//div[@data-field='name' and @data-value='" + s.getName() + "']"));
-//            assertNotNull(we, "student found");
+            //Verify to see if student is in database
+            Student s = studentRepository.findByEmail(TEST_USER_EMAIL);
+            we = driver.findElement(By.xpath("//div[@data-field='name' and @data-value='" + s.getName() + "']"));
+            assertNotNull(we, "student found");
 
         } catch (Exception ex) {
             throw ex;
         } finally {
 
-//      	  // clean up database.
-//  				Student s = studentRepository.findByEmail(TEST_USER_EMAIL);
-//  				if (s != null)
-//  					studentRepository.delete(s);
+      	  // clean up database.
+  				Student s = studentRepository.findByEmail(TEST_USER_EMAIL);
+  				if (s != null)
+  					studentRepository.delete(s);
 
             driver.quit();
         }
