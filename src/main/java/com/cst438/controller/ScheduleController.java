@@ -27,7 +27,7 @@ import com.cst438.domain.StudentRepository;
 import com.cst438.service.GradebookService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "https://cst438-register-fe.herokuapp.com/"})
+@CrossOrigin(origins ={"http://localhost:3000", "https://cst438-register-fe.herokuapp.com/"})
 public class ScheduleController {
 	
 	
@@ -117,7 +117,7 @@ public class ScheduleController {
 	}
 	
 	/* Add student to the system. Student has an email and name */
-	@PutMapping("/student")
+	@PostMapping("/student")
 	@Transactional
 	public void addNewStudent (@RequestParam String email, @RequestParam String name) {
 		
