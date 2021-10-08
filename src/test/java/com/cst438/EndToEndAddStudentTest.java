@@ -54,7 +54,14 @@ public class EndToEndAddStudentTest {
     @Test
     public void createStudent() throws Exception {
 
-
+   	 Student x = null;
+ 		 do {
+ 			 x = studentRepository.findByEmail(TEST_USER_EMAIL);
+ 			 if (x != null)
+ 				 studentRepository.delete(x);
+ 		 } while (x != null);
+ 		 
+ 		 
         // set the driver location and start driver
         //@formatter:off
         // browser    property name                 Java Driver Class
@@ -91,18 +98,19 @@ public class EndToEndAddStudentTest {
             driver.findElement(By.xpath("//input[@name='submitButton']")).click();
             Thread.sleep(SLEEP_DURATION);
 
-//            //Verify to see if student is in database
-//            Student s = studentRepository.findByEmail(TEST_USER_EMAIL);
-//            assertNotNull(s.getEmail(), "email not found in database");
-//
+            //Verify to see if student is in database
+            Student s = studentRepository.findByEmail(TEST_USER_EMAIL);
+            we = driver.findElement(By.xpath("//div[@data-field='name' and @data-value='" + s.getName() + "']"));
+            assertNotNull(s.getEmail(), "email not found in database");
+
         } catch (Exception ex) {
             throw ex;
         } finally {
 
-            //Delete 
-//            Assignment a = assignmentRepository.findByName(TEST_ASSIGNMENT_NAME).get(0);
-//            if (a!=null) assignmentRepository.delete(a);
-//            courseRepository.delete(c);
+      	  // clean up database.
+  				Student s = studentRepository.findByEmail(TEST_USER_EMAIL);
+  				if (s != null)
+  					studentRepository.delete(s);
 
             driver.quit();
         }
