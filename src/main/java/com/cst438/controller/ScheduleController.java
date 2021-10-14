@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,9 +27,9 @@ import com.cst438.domain.EnrollmentRepository;
 import com.cst438.domain.ScheduleDTO;
 import com.cst438.domain.Student;
 import com.cst438.domain.StudentRepository;
-import com.cst438.service.GradebookService;
+//import com.cst438.service.GradebookService;
 
-@RestController
+@Controller
 @CrossOrigin(origins ={"http://localhost:3000", "https://cst438-register-fe.herokuapp.com/"})
 public class ScheduleController {
 	
@@ -40,17 +43,17 @@ public class ScheduleController {
 	@Autowired
 	EnrollmentRepository enrollmentRepository;
 	
-	@Autowired
-	GradebookService gradebookService;
+//	@Autowired
+//	GradebookService gradebookService;
 	
 	
 	/*
 	 * get current schedule for student.
 	 */
 	@GetMapping("/schedule")
-	public ScheduleDTO getSchedule( @RequestParam("year") int year, @RequestParam("semester") String semester ) {
+	public ScheduleDTO getSchedule( @RequestParam("year") int year, @RequestParam("semester") String semester, @AuthenticationPrincipal OAuth2User principal ) {
 		
-		String student_email = "test@csumb.edu";   // student's email 
+		String student_email = principal.getAttribute("email");  // student's email 
 		
 		Student student = studentRepository.findByEmail(student_email);
 		if (student != null) {
@@ -66,9 +69,9 @@ public class ScheduleController {
 	
 	@PostMapping("/schedule")
 	@Transactional
-	public ScheduleDTO.CourseDTO addCourse( @RequestBody ScheduleDTO.CourseDTO courseDTO  ) { 
+	public ScheduleDTO.CourseDTO addCourse( @RequestBody ScheduleDTO.CourseDTO courseDTO, @AuthenticationPrincipal OAuth2User principal) { 
 		
-		String student_email = "test@csumb.edu";   // student's email 
+		String student_email = principal.getAttribute("email");  // student's email 
 		
 		Student student = studentRepository.findByEmail(student_email);
 		Course course  = courseRepository.findByCourse_id(courseDTO.course_id);
@@ -86,7 +89,7 @@ public class ScheduleController {
 			enrollment.setSemester(course.getSemester());
 			Enrollment savedEnrollment = enrollmentRepository.save(enrollment);
 			
-			gradebookService.enrollStudent(student_email, student.getName(), course.getCourse_id());
+			//gradebookService.enrollStudent(student_email, student.getName(), course.getCourse_id());
 			
 			ScheduleDTO.CourseDTO result = createCourseDTO(savedEnrollment);
 			return result;
@@ -98,9 +101,9 @@ public class ScheduleController {
 	
 	@DeleteMapping("/schedule/{enrollment_id}")
 	@Transactional
-	public void dropCourse(  @PathVariable int enrollment_id  ) {
+	public void dropCourse(  @PathVariable int enrollment_id, @AuthenticationPrincipal OAuth2User principal  ) {
 		
-		String student_email = "test@csumb.edu";   // student's email 
+		String student_email = principal.getAttribute("email");    // student's email 
 		
 		// TODO  check that today's date is not past deadline to drop course.
 		
@@ -116,47 +119,7 @@ public class ScheduleController {
 		}
 	}
 	
-	/* Add student to the system. Student has an email and name */
-	@PostMapping("/student")
-	@Transactional
-	public void addNewStudent (@RequestParam String email, @RequestParam String name) {
-		
-		if (studentRepository.findByEmail(email) == null) {
-		/* create a new student */
-		Student student = new Student();
-		
-		student.setEmail(email);
-		student.setName(name);
-		studentRepository.save(student);
-		}
-		else throw new ResponseStatusException( HttpStatus.UNAUTHORIZED, "Not Authorized. " );
-	}
-	
-	@PutMapping("/student/hold")
-	@Transactional
-	public void putStudentOnHold (@RequestParam String email) {
-		
-		if (studentRepository.findByEmail(email) != null) {
-		/* create a new student */
-		Student student = studentRepository.findByEmail(email);
-		student.setStatusCode(1);
-		studentRepository.save(student);
-		}
-		else throw new ResponseStatusException( HttpStatus.UNAUTHORIZED, "Not Authorized. " );
-	}
-	
-	@PutMapping("/student/release")
-	@Transactional
-	public void removeStudentHold (@RequestParam String email) {
-		
-		if (studentRepository.findByEmail(email) != null) {
-		/* create a new student */
-		Student student = studentRepository.findByEmail(email);
-		student.setStatusCode(0);
-		studentRepository.save(student);
-		}
-		else throw new ResponseStatusException( HttpStatus.UNAUTHORIZED, "Not Authorized. " );
-	}
+
 	/* 
 	 * helper method to transform course, enrollment, student entities into 
 	 * a an instance of ScheduleDTO to return to front end.
